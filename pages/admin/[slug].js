@@ -5,7 +5,7 @@ import { firestore, auth, serverTimestamp } from '../../lib/firebase';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { useDocumentData } from 'react-firebase-hooks/firestore';
+import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
 import { useForm } from 'react-hook-form';
 import ReactMarkdown from 'react-markdown';
 import Link from 'next/link';
@@ -26,7 +26,7 @@ function PostManager() {
   const { slug } = router.query;
 
   const postRef = firestore.collection('users').doc(auth.currentUser.uid).collection('posts').doc(slug);
-  const [post] = useDocumentData(postRef);
+  const [post] = useDocumentDataOnce(postRef);
 
   return (
     <main className={styles.container}>
