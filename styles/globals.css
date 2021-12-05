@@ -290,3 +290,7 @@ input[type="file"] {
 		transform: rotate(360deg);
 	}
 }
+
+.btn-signout {
+	margin: 0 auto;
+}

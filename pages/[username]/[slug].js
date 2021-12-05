@@ -1,6 +1,9 @@
+import Link from 'next/link';
 import styles from '../../styles/Home.module.css';
+import AuthCheck from '../../components/AuthCheck';
 import PostContent from '../../components/PostContent';
-import { firestore, getUserWithUsername, PostToJSON } from '../../lib/firebase';
+import HeartButton from '../../components/HeartButton';
+import { firestore, getUserWithUsername, postToJSON } from '../../lib/firebase';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 
 export async function getStaticProps({ params }) {
@@ -10,39 +13,35 @@ export async function getStaticProps({ params }) {
   let post;
   let path;
 
-  if(userDoc) {
+  if (userDoc) {
     const postRef = userDoc.ref.collection('posts').doc(slug);
-    console.log(postRef);
-    post = PostToJSON(await postRef.get());
+    post = postToJSON(await postRef.get());
 
     path = postRef.path;
   }
 
-
   return {
     props: { post, path },
-    revalidate: 5000
-  }
+    revalidate: 100,
+  };
 }
+
 
 
 export async function getStaticPaths() {
   const snapshot = await firestore.collectionGroup('posts').get();
 
-  const paths = snapshot.docs.map(doc => {
+  const paths = snapshot.docs.map((doc) => {
     const { slug, username } = doc.data();
-
-
     return {
-      params: { username, slug }
-    }
+      params: { username, slug },
+    };
   });
 
   return {
     paths,
-    fallback: 'blocking'
-  }
-
+    fallback: 'blocking',
+  };
 }
 
 export default function Post(props) {
@@ -61,6 +60,13 @@ export default function Post(props) {
         <p>
           <strong>{post.heartCount || 0} ♥</strong>
         </p>
+        <AuthCheck fallback={
+          <Link href="/enter" passHref>
+            <button>Sign up</button>
+          </Link>
+        }>
+          <HeartButton postRef={postRef} />
+        </AuthCheck>
       </aside>
     </main>
   )

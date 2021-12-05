@@ -1,5 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { UserContext } from '../lib/context';
+import SignOutButton from '../components/SignOutButton';
 import { auth, googleAuthProvider, firestore } from '../lib/firebase';
 import debounce from 'lodash.debounce';
 
@@ -39,9 +40,6 @@ function SignInButton() {
   }
 }
 
-function SignOutButton() {
-  return <button onClick={() => auth.signOut()}>Sign Out</button>
-}
 
 function UsernameForm() {
   const [formValue, setFormValue] = useState('');
@@ -75,7 +73,7 @@ function UsernameForm() {
     if(username.length >= 3) {
         const ref = firestore.doc(`usernames/${username}`);
         const { exists } = await ref.get();
-        console.log('Firestore read executed!');
+
         setIsValid(!exists);
         setLoading(false);
       }

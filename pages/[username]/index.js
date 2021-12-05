@@ -1,5 +1,6 @@
 import { getUserWithUsername, postToJSON } from '../../lib/firebase';
 import UserProfile from '../../components/UserProfle';
+import SignOutButton from '../../components/SignOutButton';
 import PostFeed from '../../components/PostFeed';
 
 export async function getServerSideProps({ query }) {
@@ -39,6 +40,7 @@ export default function UserProfilePage({ user, posts }) {
   return (
     <main>
       <UserProfile user={user} />
+      <SignOutButton />
       <PostFeed posts={posts} />
     </main>
   )

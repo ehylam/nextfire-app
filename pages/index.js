@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { firestore, postToJSON, fromMillis } from '../lib/firebase';
 import PostFeed from '../components/PostFeed';
 
-const LIMIT = 1;
+const LIMIT = 10;
 
 export async function getServerSideProps(context) {
   const postsQuery = firestore

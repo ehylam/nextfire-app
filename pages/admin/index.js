@@ -13,8 +13,8 @@ export default function AdminPostsPage({ }) {
   return (
     <main>
       <AuthCheck>
-        <PostList />
         <CreateNewPost />
+        <PostList />
       </AuthCheck>
     </main>
   )
@@ -29,7 +29,7 @@ function PostList() {
 
   return (
     <>
-      <h1>Manage your Posts</h1>
+      <h2>Manage your Posts</h2>
       <PostFeed posts={posts} admin/>
     </>
   )
@@ -57,7 +57,7 @@ function CreateNewPost() {
       username,
       published: false,
       content: '# Hello World!',
-      cratedAt: serverTimestamp(),
+      createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
       heartCount: 0
     }
@@ -69,16 +69,19 @@ function CreateNewPost() {
 
 
   return (
-    <form onSubmit={createPost}>
-      <input value={title} onChange={e => setTitle(e.target.value)} placeholder="My Awesome Article!" className={styles.input} />
-      <p>
-        <strong>Slug:</strong> {slug}
-      </p>
+    <>
+      <h2>Create a Post</h2>
+      <form onSubmit={createPost}>
+        <input value={title} onChange={e => setTitle(e.target.value)} placeholder="My Awesome Article!" className={styles.input} />
+        <p>
+          { slug && <strong>Slug:</strong> } {slug}
+        </p>
 
-      <button type="submit" disabled={!isValid} className="btn-green">
-        Create New Post
-      </button>
-    </form>
+        <button type="submit" disabled={!isValid} className="btn-green">
+          Create New Post
+        </button>
+      </form>
+    </>
   );
 
 }
